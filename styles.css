@@ -1,0 +1,32 @@
+* {
+    box-sizing: border-box;
+
+}
+
+body {
+    background: #2d3436;
+    font-family: 'Fahkwang', sans-serif;
+
+}
+
+h1 {
+    margin-top: 50px;
+    color: #dfe6e9;
+    text-transform: uppercase;
+    font-weight: bolder;
+
+}
+
+p {
+    color: #dfe6e9;
+}
+
+a {
+    color: #d63031;
+
+}
+
+a:hover {
+    color: #ff7675;
+
+}
