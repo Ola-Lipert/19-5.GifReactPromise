@@ -14,7 +14,6 @@
   "keywords": [
     "react",
     "gift"
-    
   ],
   "author": "Ola",
   "license": "ISC",
@@ -23,6 +22,7 @@
   },
   "homepage": "https://github.com/Ola-Lipert/18-8.ReactGif#readme",
   "devDependencies": {
+    "babel-polyfill": "^6.26.0",
     "http-server": "^0.11.1"
   }
 }

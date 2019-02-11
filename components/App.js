@@ -11,34 +11,43 @@ App = React.createClass({
         };
     },
 
-    handleSearch: function(searchingText) {  // 1.Pobierz na wejściu wpisany tekst
+    handleSearch: function(searchingText) {
         this.setState({
-          loading: true  // 2.Zasygnalizuj, że zaczął się proces ładowania
+          loading: true 
         });
-        this.getGif(searchingText, function(gif) {  // 3.Rozpocznij pobieranie gifa
-          this.setState({  // 4. Na zakńczenie pobierania:
-            loading: false,  // a.przestań sygnalizować pobieranie
-            gif: gif,  // b.ustaw nowego gifa z wyniku pobierania 
-            searchingText: searchingText  // c.ustaw nowy stan dla wyszukiwanego tekstu
-          });
-        }.bind(this));
+        
+        this.getGif(searchingText)
+            
+        this.getGif(searchingText)
+            .then(function(gif) {
+                this.setState({  
+                    loading: false,  
+                    gif: gif,  
+                    searchingText: searchingText 
+                });
+            })   
     },
 
-    getGif: function(searchingText, callback) {  // 1.Na wejście funkcja przyjmuje dwa parametry: wpisany tekst i funkcję, która ma się wykonać po pobranu gifa
-        var url = GIPHY_API_URL + '/v1/gifs/random?api_key=' + GIPHY_PUB_KEY + '&tag=' + searchingText;  // 2.Konstruujemy adres URL dla API Giphy
-        var xhr = new XMLHttpRequest();  // 3.Wywołujemy całą sekwencję tworzenia zapytania XHR do serwera i wysyłamy je
-        xhr.open('GET', url);
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-               var data = JSON.parse(xhr.responseText).data; // 4.W obiekcie odpowiedzi mamy obiekt z danymi, Rozpakowujemy do zmiennej data
-                var gif = {  // 5.Układamy obiekt gif na podstawie tego, co otrzymaliśmy z serwera
-                    url: data.fixed_width_downsampled_url,
-                    sourceUrl: data.url
+    getGif: function(searchingText) {
+        return new Promise(
+            function(resolve, reject) {                                                      
+                var url = GIPHY_API_URL + '/v1/gifs/random?api_key=' + GIPHY_PUB_KEY + '&tag=' + searchingText;  
+                var xhr = new XMLHttpRequest();  
+                xhr.open('GET', url);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText).data; 
+                        var gif = {  
+                            url: data.fixed_width_downsampled_url,
+                            sourceUrl: data.url
+                        };
+                        resolve(gif);  
+                    }
                 };
-                callback(gif);  // 6.Przekazujemy obiekt do funkcji callback, którą przekazaliśmy jako drugi parametr metody getGif
+                xhr.send();
+                
             }
-        };
-        xhr.send();
+        );
     },
 
     render: function() {
